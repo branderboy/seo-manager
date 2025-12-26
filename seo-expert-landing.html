@@ -1,0 +1,782 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kawani Ali - SEO Manager</title>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --black: #0a0a0a;
+            --white: #ffffff;
+            --accent: #00ff88;
+            --gray: #888888;
+            --red: #ff3366;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'IBM Plex Mono', monospace;
+            background: var(--black);
+            color: var(--white);
+            line-height: 1.6;
+            overflow-x: hidden;
+            font-size: 18px;
+        }
+
+        .grain {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            opacity: 0.03;
+            z-index: 1000;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='4' numOctaves='3' /%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' /%3E%3C/svg%3E");
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 40px;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+            border-bottom: 2px solid var(--accent);
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .eyebrow {
+            font-size: 18px;
+            letter-spacing: 3px;
+            color: var(--accent);
+            font-weight: 600;
+            margin-bottom: 20px;
+            opacity: 0;
+            animation: fadeIn 0.8s ease-out 0.2s forwards;
+        }
+
+        h1 {
+            font-family: 'Archivo Black', sans-serif;
+            font-size: clamp(48px, 8vw, 96px);
+            line-height: 1;
+            margin-bottom: 30px;
+            letter-spacing: -2px;
+            opacity: 0;
+            animation: fadeInUp 0.8s ease-out 0.4s forwards;
+        }
+
+        .highlight {
+            color: var(--accent);
+            display: inline-block;
+            position: relative;
+        }
+
+        .highlight::after {
+            content: '';
+            position: absolute;
+            bottom: 8px;
+            left: 0;
+            width: 100%;
+            height: 8px;
+            background: var(--accent);
+            opacity: 0.2;
+            z-index: -1;
+        }
+
+        .hero-text {
+            font-size: 20px;
+            max-width: 700px;
+            margin-bottom: 50px;
+            color: var(--white);
+            opacity: 0;
+            animation: fadeIn 0.8s ease-out 0.6s forwards;
+        }
+
+        .cta-group {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            opacity: 0;
+            animation: fadeIn 0.8s ease-out 0.8s forwards;
+        }
+
+        .btn {
+            padding: 18px 40px;
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 14px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-decoration: none;
+            border: 2px solid;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: inline-block;
+            text-transform: uppercase;
+        }
+
+        .btn-primary {
+            background: var(--accent);
+            color: var(--black);
+            border-color: var(--accent);
+        }
+
+        .btn-primary:hover {
+            background: transparent;
+            color: var(--accent);
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--white);
+            border-color: var(--white);
+        }
+
+        .btn-secondary:hover {
+            background: var(--white);
+            color: var(--black);
+            transform: translateY(-2px);
+        }
+
+        /* Stats Bar */
+        .stats-bar {
+            background: var(--accent);
+            color: var(--black);
+            padding: 30px 0;
+            border-bottom: 2px solid var(--white);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-family: 'Archivo Black', sans-serif;
+            font-size: 48px;
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+
+        .stat-label {
+            font-size: 18px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+
+        /* Expertise Section */
+        .expertise {
+            padding: 120px 0;
+            border-bottom: 2px solid var(--gray);
+        }
+
+        .section-title {
+            font-family: 'Archivo Black', sans-serif;
+            font-size: clamp(36px, 6vw, 64px);
+            margin-bottom: 60px;
+            letter-spacing: -1px;
+        }
+
+        .expertise-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+        }
+
+        .expertise-card {
+            border: 2px solid var(--gray);
+            padding: 40px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .expertise-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 255, 136, 0.1), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .expertise-card:hover::before {
+            left: 100%;
+        }
+
+        .expertise-card:hover {
+            border-color: var(--accent);
+            transform: translateY(-5px);
+        }
+
+        .expertise-icon {
+            font-size: 18px;
+            color: var(--accent);
+            margin-bottom: 20px;
+            letter-spacing: 2px;
+            font-weight: 600;
+        }
+
+        .expertise-card h3 {
+            font-family: 'Archivo Black', sans-serif;
+            font-size: 24px;
+            margin-bottom: 15px;
+            letter-spacing: -0.5px;
+        }
+
+        .expertise-card p {
+            color: var(--white);
+            font-size: 18px;
+            line-height: 1.8;
+        }
+
+        /* Results Section */
+        .results {
+            padding: 120px 0;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
+            border-bottom: 2px solid var(--gray);
+        }
+
+        .results-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 30px;
+            margin-top: 60px;
+        }
+
+        .result-card {
+            border: 2px solid var(--gray);
+            padding: 40px;
+            background: var(--black);
+            position: relative;
+        }
+
+        .result-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 0;
+            background: var(--accent);
+            transition: height 0.3s ease;
+        }
+
+        .result-card:hover::after {
+            height: 100%;
+        }
+
+        .result-metric {
+            font-family: 'Archivo Black', sans-serif;
+            font-size: 56px;
+            color: var(--accent);
+            line-height: 1;
+            margin-bottom: 15px;
+        }
+
+        .result-label {
+            font-size: 18px;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .result-detail {
+            font-size: 18px;
+            color: var(--white);
+            line-height: 1.7;
+        }
+
+        /* Experience Timeline */
+        .timeline {
+            padding: 120px 0;
+            border-bottom: 2px solid var(--gray);
+        }
+
+        .timeline-item {
+            border-left: 2px solid var(--gray);
+            padding-left: 40px;
+            margin-bottom: 60px;
+            position: relative;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -6px;
+            top: 0;
+            width: 10px;
+            height: 10px;
+            background: var(--accent);
+            border-radius: 50%;
+        }
+
+        .timeline-date {
+            font-size: 18px;
+            letter-spacing: 2px;
+            color: var(--accent);
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .timeline-title {
+            font-family: 'Archivo Black', sans-serif;
+            font-size: 28px;
+            margin-bottom: 5px;
+            letter-spacing: -0.5px;
+        }
+
+        .timeline-company {
+            font-size: 16px;
+            color: var(--white);
+            margin-bottom: 20px;
+        }
+
+        .timeline-achievements {
+            list-style: none;
+            margin-top: 20px;
+        }
+
+        .timeline-achievements li {
+            padding-left: 20px;
+            margin-bottom: 10px;
+            position: relative;
+            color: var(--white);
+            font-size: 18px;
+        }
+
+        .timeline-achievements li::before {
+            content: '→';
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+        }
+
+        /* Tech Stack */
+        .tech-stack {
+            padding: 120px 0;
+            background: var(--black);
+            border-bottom: 2px solid var(--gray);
+        }
+
+        .tech-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 60px;
+        }
+
+        .tech-tag {
+            padding: 12px 24px;
+            border: 2px solid var(--gray);
+            font-size: 18px;
+            letter-spacing: 1px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .tech-tag:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+            transform: scale(1.05);
+        }
+
+        /* Contact Section */
+        .contact {
+            padding: 120px 0;
+            text-align: center;
+        }
+
+        .contact h2 {
+            font-family: 'Archivo Black', sans-serif;
+            font-size: clamp(36px, 6vw, 72px);
+            margin-bottom: 30px;
+            letter-spacing: -1px;
+        }
+
+        .contact-text {
+            font-size: 18px;
+            color: var(--white);
+            margin-bottom: 50px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .contact-email {
+            font-size: 24px;
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: 600;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+
+        .contact-email:hover {
+            transform: scale(1.05);
+        }
+
+        /* Footer */
+        footer {
+            padding: 60px 0;
+            border-top: 2px solid var(--gray);
+            text-align: center;
+            font-size: 18px;
+            color: var(--gray);
+            letter-spacing: 2px;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 20px;
+            }
+
+            .hero {
+                min-height: auto;
+                padding: 80px 0;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+
+            .expertise-grid,
+            .results-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .cta-group {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+                text-align: center;
+            }
+
+            .timeline-item {
+                padding-left: 25px;
+            }
+        }
+
+        /* Scroll indicator */
+        .scroll-indicator {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            background: var(--accent);
+            z-index: 999;
+            transform-origin: left;
+        }
+    </style>
+</head>
+<body>
+    <div class="grain"></div>
+    <div class="scroll-indicator" id="scrollIndicator"></div>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <div class="eyebrow">SEO MANAGER</div>
+                <h1>
+                    Kawani Ali
+                </h1>
+                <p class="hero-text">
+                    SEO Manager with 6+ years driving organic growth through technical optimization, content strategy, and local search. Proven track record scaling traffic for media sites, agencies, and service businesses.
+                </p>
+            </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Bar -->
+    <section class="stats-bar">
+        <div class="container">
+            <div class="stats-grid">
+                <div class="stat">
+                    <div class="stat-number">2X+</div>
+                    <div class="stat-label">Traffic Growth Delivered</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number">6+</div>
+                    <div class="stat-label">Years Experience</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number">3M+</div>
+                    <div class="stat-label">Monthly Visitors Managed</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number">$$$</div>
+                    <div class="stat-label">Revenue Impact Focused</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Expertise Section -->
+    <section class="expertise">
+        <div class="container">
+            <h2 class="section-title">Core Competencies</h2>
+            <div class="expertise-grid">
+                <div class="expertise-card">
+                    <div class="expertise-icon">01 — TECHNICAL SEO</div>
+                    <h3>Make Sites Fast & Crawlable</h3>
+                    <p>Page speed optimization, Core Web Vitals, JavaScript SEO, schema markup, crawl budget optimization. Cut load times by 25%, improved mobile performance by 40%.</p>
+                </div>
+                <div class="expertise-card">
+                    <div class="expertise-icon">02 — LOCAL SEO</div>
+                    <h3>Dominate Local Search</h3>
+                    <p>GMB optimization, citation building, review generation, multi-location strategies. Built systems for contractors and service businesses to own their markets.</p>
+                </div>
+                <div class="expertise-card">
+                    <div class="expertise-icon">03 — WORDPRESS OPTIMIZATION</div>
+                    <h3>CMS Performance</h3>
+                    <p>WooCommerce optimization, custom plugin development, database tuning, CDN integration. Managed high-traffic sites serving millions of monthly visitors.</p>
+                </div>
+                <div class="expertise-card">
+                    <div class="expertise-icon">04 — CONTENT STRATEGY</div>
+                    <h3>Editorial SEO That Ranks</h3>
+                    <p>Content gap analysis, keyword research, internal linking systems, editorial calendars. Built automated workflows that reduced publishing time 60%.</p>
+                </div>
+                <div class="expertise-card">
+                    <div class="expertise-icon">05 — LINK BUILDING</div>
+                    <h3>Digital PR & Outreach</h3>
+                    <p>Resource page outreach, broken link building, digital PR campaigns. Acquired high-DR backlinks through journalist outreach and strategic partnerships.</p>
+                </div>
+                <div class="expertise-card">
+                    <div class="expertise-icon">06 — AUTOMATION</div>
+                    <h3>Scale With Systems</h3>
+                    <p>Make.com workflows, API integrations, webhook configuration. Built automated content distribution and lead generation systems that scale.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Results Section -->
+    <section class="results" id="results">
+        <div class="container">
+            <h2 class="section-title">Key Results</h2>
+            <div class="results-grid">
+                <div class="result-card">
+                    <div class="result-metric">1.4M → 3.1M</div>
+                    <div class="result-label">Monthly Traffic Scale at AllHipHop</div>
+                    <div class="result-detail">Doubled organic traffic in one year through technical SEO and content optimization, directly increasing ad impression inventory and revenue potential</div>
+                </div>
+                <div class="result-card">
+                    <div class="result-metric">Ad Revenue</div>
+                    <div class="result-label">Impact Through Traffic Growth</div>
+                    <div class="result-detail">Traffic increases translated to higher ad impressions and CPM opportunities for media monetization, driving measurable business value</div>
+                </div>
+                <div class="result-card">
+                    <div class="result-metric">Page Speed</div>
+                    <div class="result-label">Site Performance Optimization</div>
+                    <div class="result-detail">Reduced load time across 50K+ pages, improving user experience and reducing bounce rates that impact revenue per session</div>
+                </div>
+                <div class="result-card">
+                    <div class="result-metric">Lead Gen</div>
+                    <div class="result-label">B2B & Event Conversions</div>
+                    <div class="result-detail">Built automated lead generation systems at Smart CEO Magazine that increased qualified leads and event attendance, driving subscription revenue</div>
+                </div>
+                <div class="result-card">
+                    <div class="result-metric">Local SEO</div>
+                    <div class="result-label">Service Business Growth</div>
+                    <div class="result-detail">Helped contractors and service businesses rank in local pack, generating phone calls and quote requests that convert to jobs and revenue</div>
+                </div>
+                <div class="result-card">
+                    <div class="result-metric">Conversion</div>
+                    <div class="result-label">Landing Page Optimization</div>
+                    <div class="result-detail">Improved conversion rates through A/B testing and optimization, directly impacting client revenue and marketing ROI</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Timeline Section -->
+    <section class="timeline">
+        <div class="container">
+            <h2 class="section-title">Professional Experience</h2>
+            
+            <div class="timeline-item">
+                <div class="timeline-date">2014 — 2017</div>
+                <div class="timeline-title">Digital Marketing Specialist & SEO</div>
+                <div class="timeline-company">Smart CEO Magazine</div>
+                <ul class="timeline-achievements">
+                    <li>Increased organic search traffic through targeted keyword strategies and technical optimization for B2B magazine, expanding reach to drive subscription and event revenue</li>
+                    <li>Built automated lead generation workflows that increased qualified leads for events and subscriptions, directly contributing to revenue growth and event attendance targets</li>
+                    <li>Optimized content for maximum engagement and visibility, driving YoY increases in event attendance through SEO-driven campaigns that converted readers into paying attendees</li>
+                </ul>
+            </div>
+
+            <div class="timeline-item">
+                <div class="timeline-date">2017 — 2018</div>
+                <div class="timeline-title">SEO Specialist & WordPress Manager</div>
+                <div class="timeline-company">Atigro SEO Agency</div>
+                <ul class="timeline-achievements">
+                    <li>Conducted keyword research and competitive analysis for local service businesses including HVAC contractors, plumbers, and electricians in competitive DMV market, targeting high-intent search terms that generate quote requests</li>
+                    <li>Implemented local SEO strategies including Google My Business optimization, citation building, and review management to improve local pack rankings, driving phone calls and leads that convert to jobs and revenue for service businesses</li>
+                    <li>Managed WordPress sites for service businesses with focus on mobile optimization, call tracking integration, and lead capture form optimization to maximize conversion of organic traffic into paying customers</li>
+                </ul>
+            </div>
+
+            <div class="timeline-item">
+                <div class="timeline-date">2019 — 2021</div>
+                <div class="timeline-title">SEO Strategist & Marketing Director</div>
+                <div class="timeline-company">Creative Design Resolution</div>
+                <ul class="timeline-achievements">
+                    <li>Drove organic traffic growth for agency clients through comprehensive SEO audits, keyword research, and content optimization strategies that expanded their market reach and customer acquisition</li>
+                    <li>Improved conversion rates through landing page optimization, A/B testing, and technical implementation of tracking pixels and conversion funnels, directly impacting client revenue and ROI</li>
+                    <li>Developed SEO-driven content strategies aligned with business objectives, coordinating with design and development teams to ensure technical implementation that supports revenue goals</li>
+                </ul>
+            </div>
+
+            <div class="timeline-item">
+                <div class="timeline-date">2019 — 2024</div>
+                <div class="timeline-title">SEO Manager & Web Manager</div>
+                <div class="timeline-company">AllHipHop.com</div>
+                <ul class="timeline-achievements">
+                    <li>Scaled organic traffic from 1.4M to 3.1M monthly visitors in one year, directly increasing ad impression inventory and revenue potential for high-volume hip-hop media site</li>
+                    <li>Improved page load time and mobile performance through lazy loading, image optimization, and CDN configuration across 50K+ pages, improving user engagement metrics that impact ad revenue</li>
+                    <li>Built automated content distribution workflows using Make.com, allowing editorial team to produce more revenue-generating content without additional resources</li>
+                    <li>Managed WordPress infrastructure including WooCommerce customization, plugin optimization, and database performance tuning to support high-traffic content delivery and monetization</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tech Stack Section -->
+    <section class="tech-stack">
+        <div class="container">
+            <h2 class="section-title">Tools & Tech</h2>
+            <div class="tech-tags">
+                <div class="tech-tag">SEMRUSH</div>
+                <div class="tech-tag">AHREFS</div>
+                <div class="tech-tag">GOOGLE SEARCH CONSOLE</div>
+                <div class="tech-tag">GOOGLE ANALYTICS 4</div>
+                <div class="tech-tag">SCREAMING FROG</div>
+                <div class="tech-tag">GOOGLE TAG MANAGER</div>
+                <div class="tech-tag">LOOKER STUDIO</div>
+                <div class="tech-tag">WORDPRESS</div>
+                <div class="tech-tag">WOOCOMMERCE</div>
+                <div class="tech-tag">HTML/CSS/JS</div>
+                <div class="tech-tag">PHP</div>
+                <div class="tech-tag">MYSQL</div>
+                <div class="tech-tag">MAKE.COM</div>
+                <div class="tech-tag">ZAPIER</div>
+                <div class="tech-tag">API INTEGRATIONS</div>
+                <div class="tech-tag">GOOGLE MY BUSINESS</div>
+                <div class="tech-tag">MOZ LOCAL</div>
+                <div class="tech-tag">BRIGHTLOCAL</div>
+                <div class="tech-tag">SURFER SEO</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact" id="contact">
+        <div class="container">
+            <h2>Get In Touch</h2>
+            <p class="contact-text">
+                Let's discuss how I can help drive organic growth for your business.
+            </p>
+            <a href="/cdn-cgi/l/email-protection#85e7f7e4ebe1e0f7e7eafcc5e8e0abe6eae8" class="contact-email"><span class="__cf_email__" data-cfemail="96f4e4f7f8f2f3e4f4f9efd6fbf3b8f5f9fb">[email&#160;protected]</span></a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            KAWANI ALI — SEO MANAGER
+        </div>
+    </footer>
+
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+        // Scroll indicator
+        window.addEventListener('scroll', () => {
+            const scrollIndicator = document.getElementById('scrollIndicator');
+            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrollPercentage = (scrollTop / scrollHeight) * 100;
+            scrollIndicator.style.width = scrollPercentage + '%';
+        });
+
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Intersection Observer for fade-in animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.expertise-card, .result-card, .timeline-item').forEach(el => {
+ 
