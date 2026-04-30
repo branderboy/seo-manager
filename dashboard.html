@@ -1,0 +1,749 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weekly SEO & AEO Report — Northvale Mutual — Apr 20–26, 2026</title>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --black: #0a0a0a;
+            --panel: #121212;
+            --white: #ffffff;
+            --accent: #00ff88;
+            --accent-dim: rgba(0, 255, 136, 0.12);
+            --gray: #888888;
+            --gray-dim: #2a2a2a;
+            --red: #ff3366;
+            --amber: #ffb84d;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'IBM Plex Mono', monospace;
+            background: var(--black);
+            color: var(--white);
+            line-height: 1.5;
+            font-size: 14px;
+            padding: 0;
+        }
+
+        .grain {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            opacity: 0.025;
+            z-index: 1000;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='4' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+        }
+
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 40px;
+        }
+
+        /* Header */
+        .header {
+            border-bottom: 2px solid var(--accent);
+            padding-bottom: 24px;
+            margin-bottom: 32px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .header-left .eyebrow {
+            font-size: 11px;
+            color: var(--accent);
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .header-left h1 {
+            font-family: 'Archivo Black', sans-serif;
+            font-size: 32px;
+            letter-spacing: -1px;
+            line-height: 1;
+        }
+
+        .header-right {
+            text-align: right;
+            font-size: 12px;
+            color: var(--gray);
+        }
+
+        .header-right .label { color: var(--gray); }
+        .header-right .value { color: var(--white); font-weight: 600; }
+
+        /* Headline */
+        .headline {
+            background: var(--accent-dim);
+            border-left: 4px solid var(--accent);
+            padding: 24px 28px;
+            margin-bottom: 40px;
+        }
+
+        .headline-label {
+            font-size: 10px;
+            color: var(--accent);
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .headline-text {
+            font-family: 'Archivo Black', sans-serif;
+            font-size: 22px;
+            line-height: 1.3;
+            color: var(--white);
+            letter-spacing: -0.5px;
+        }
+
+        .headline-text .accent { color: var(--accent); }
+
+        /* Section */
+        .section {
+            margin-bottom: 48px;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 20px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid var(--gray-dim);
+        }
+
+        .section-header h2 {
+            font-family: 'Archivo Black', sans-serif;
+            font-size: 18px;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        .section-header .tag {
+            font-size: 10px;
+            color: var(--gray);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-left: auto;
+        }
+
+        /* KPI Grid */
+        .kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1px;
+            background: var(--gray-dim);
+            border: 1px solid var(--gray-dim);
+        }
+
+        .kpi {
+            background: var(--panel);
+            padding: 20px;
+        }
+
+        .kpi-label {
+            font-size: 10px;
+            color: var(--gray);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .kpi-value {
+            font-family: 'Archivo Black', sans-serif;
+            font-size: 28px;
+            color: var(--white);
+            line-height: 1;
+            margin-bottom: 12px;
+            letter-spacing: -0.5px;
+        }
+
+        .kpi-deltas {
+            display: flex;
+            gap: 14px;
+            align-items: center;
+            margin-bottom: 8px;
+            font-size: 11px;
+        }
+
+        .kpi-delta-label {
+            color: var(--gray);
+            font-size: 10px;
+            letter-spacing: 1px;
+        }
+
+        .kpi-delta {
+            font-weight: 600;
+            font-size: 12px;
+        }
+
+        .delta-up { color: var(--accent); }
+        .delta-down { color: var(--red); }
+        .delta-flat { color: var(--gray); }
+
+        .kpi-spark {
+            width: 100%;
+            height: 24px;
+            margin-top: 6px;
+        }
+
+        /* Three columns */
+        .three-col {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        @media (max-width: 900px) {
+            .three-col { grid-template-columns: 1fr; }
+        }
+
+        .col {
+            background: var(--panel);
+            border: 1px solid var(--gray-dim);
+            padding: 20px;
+        }
+
+        .col-header {
+            font-size: 11px;
+            color: var(--accent);
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            font-weight: 600;
+            margin-bottom: 16px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--gray-dim);
+        }
+
+        .col ul {
+            list-style: none;
+        }
+
+        .col li {
+            font-size: 13px;
+            padding: 10px 0;
+            border-bottom: 1px dashed var(--gray-dim);
+            line-height: 1.5;
+        }
+
+        .col li:last-child { border-bottom: none; }
+
+        .col li strong {
+            color: var(--white);
+            font-weight: 600;
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        .col li span {
+            color: var(--gray);
+            font-size: 12px;
+        }
+
+        .col li .metric {
+            color: var(--accent);
+            font-weight: 600;
+        }
+
+        /* Table */
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            background: var(--panel);
+            border: 1px solid var(--gray-dim);
+            font-size: 13px;
+        }
+
+        .table th {
+            text-align: left;
+            padding: 14px 16px;
+            font-size: 10px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--gray);
+            border-bottom: 1px solid var(--gray-dim);
+            font-weight: 600;
+        }
+
+        .table td {
+            padding: 14px 16px;
+            border-bottom: 1px solid var(--gray-dim);
+            color: var(--white);
+        }
+
+        .table tr:last-child td { border-bottom: none; }
+
+        .table tr:hover td { background: rgba(0, 255, 136, 0.03); }
+
+        .table .url {
+            color: var(--accent);
+            font-size: 12px;
+        }
+
+        .table .pos-old {
+            color: var(--gray);
+            text-decoration: line-through;
+            margin-right: 6px;
+            font-size: 11px;
+        }
+
+        .table .pos-new {
+            color: var(--accent);
+            font-weight: 600;
+        }
+
+        /* Citation Grid */
+        .citation-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1px;
+            background: var(--gray-dim);
+            border: 1px solid var(--gray-dim);
+        }
+
+        @media (max-width: 800px) {
+            .citation-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+
+        .citation-cell {
+            background: var(--panel);
+            padding: 18px;
+            text-align: center;
+        }
+
+        .citation-llm {
+            font-size: 10px;
+            letter-spacing: 2px;
+            color: var(--gray);
+            text-transform: uppercase;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .citation-rate {
+            font-family: 'Archivo Black', sans-serif;
+            font-size: 32px;
+            color: var(--accent);
+            line-height: 1;
+            margin-bottom: 8px;
+        }
+
+        .citation-detail {
+            font-size: 11px;
+            color: var(--gray);
+        }
+
+        .citation-detail .delta-up { color: var(--accent); }
+        .citation-detail .delta-down { color: var(--red); }
+
+        /* Risks */
+        .risks {
+            background: var(--panel);
+            border: 1px solid var(--gray-dim);
+            border-left: 4px solid var(--amber);
+            padding: 24px;
+        }
+
+        .risks ul { list-style: none; }
+
+        .risks li {
+            padding: 12px 0;
+            border-bottom: 1px dashed var(--gray-dim);
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+        .risks li:last-child { border-bottom: none; }
+
+        .risks li .severity {
+            display: inline-block;
+            padding: 2px 8px;
+            font-size: 10px;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            font-weight: 600;
+            margin-right: 10px;
+            border: 1px solid;
+        }
+
+        .severity.high { color: var(--red); border-color: var(--red); }
+        .severity.medium { color: var(--amber); border-color: var(--amber); }
+        .severity.low { color: var(--gray); border-color: var(--gray); }
+
+        /* Footer */
+        .footer {
+            margin-top: 60px;
+            padding-top: 24px;
+            border-top: 1px solid var(--gray-dim);
+            font-size: 11px;
+            color: var(--gray);
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .footer .sources {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .footer .sources span {
+            padding: 4px 10px;
+            border: 1px solid var(--gray-dim);
+            font-size: 10px;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+        }
+
+        .footer .sig {
+            color: var(--accent);
+        }
+
+        /* Demo banner */
+        .demo-banner {
+            background: var(--accent);
+            color: var(--black);
+            padding: 8px 0;
+            text-align: center;
+            font-size: 11px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+
+        .demo-banner a {
+            color: var(--black);
+            text-decoration: underline;
+            margin-left: 12px;
+        }
+
+        @media print {
+            .demo-banner { display: none; }
+            body { background: white; color: black; }
+        }
+    </style>
+</head>
+<body>
+    <div class="grain"></div>
+
+    <div class="demo-banner">
+        Demo · Sample Monday Executive Report · Fictional brand
+        <a href="./PLAYBOOK.md">Read the playbook →</a>
+        <a href="./agents/">View the agent stack →</a>
+    </div>
+
+    <div class="container">
+
+        <!-- Header -->
+        <div class="header">
+            <div class="header-left">
+                <div class="eyebrow">Weekly SEO &amp; AEO Report</div>
+                <h1>Northvale Mutual</h1>
+            </div>
+            <div class="header-right">
+                <div><span class="label">Week of</span> <span class="value">Apr 20 – Apr 26, 2026</span></div>
+                <div><span class="label">Shipped</span> <span class="value">Mon Apr 27, 09:00 ET</span></div>
+                <div><span class="label">Prepared by</span> <span class="value">Kawani Ali, SEO Manager</span></div>
+            </div>
+        </div>
+
+        <!-- Headline -->
+        <div class="headline">
+            <div class="headline-label">Headline number</div>
+            <div class="headline-text">
+                Organic revenue crossed <span class="accent">$200K weekly</span> for the first time, driven by a <span class="accent">+38%</span> jump in AI citations on small-business-insurance queries after the cornerstone refresh shipped last Tuesday.
+            </div>
+        </div>
+
+        <!-- KPI snapshot -->
+        <div class="section">
+            <div class="section-header">
+                <h2>KPI Snapshot</h2>
+                <span class="tag">vs. last week / vs. 4-week avg</span>
+            </div>
+            <div class="kpi-grid">
+                <div class="kpi">
+                    <div class="kpi-label">Organic Sessions</div>
+                    <div class="kpi-value">132,418</div>
+                    <div class="kpi-deltas">
+                        <span><span class="kpi-delta-label">WoW</span> <span class="kpi-delta delta-up">+9.4%</span></span>
+                        <span><span class="kpi-delta-label">MoM</span> <span class="kpi-delta delta-up">+22.1%</span></span>
+                    </div>
+                    <svg class="kpi-spark" viewBox="0 0 100 24" preserveAspectRatio="none">
+                        <polyline fill="none" stroke="#00ff88" stroke-width="1.5" points="0,18 8,17 16,16 24,15 32,16 40,14 48,13 56,11 64,12 72,10 80,8 88,6 100,3"/>
+                    </svg>
+                </div>
+
+                <div class="kpi">
+                    <div class="kpi-label">Conversions</div>
+                    <div class="kpi-value">2,318</div>
+                    <div class="kpi-deltas">
+                        <span><span class="kpi-delta-label">WoW</span> <span class="kpi-delta delta-up">+11.2%</span></span>
+                        <span><span class="kpi-delta-label">MoM</span> <span class="kpi-delta delta-up">+18.6%</span></span>
+                    </div>
+                    <svg class="kpi-spark" viewBox="0 0 100 24" preserveAspectRatio="none">
+                        <polyline fill="none" stroke="#00ff88" stroke-width="1.5" points="0,16 12,15 24,16 36,14 48,13 60,12 72,9 84,8 100,5"/>
+                    </svg>
+                </div>
+
+                <div class="kpi">
+                    <div class="kpi-label">Organic Revenue</div>
+                    <div class="kpi-value">$208,142</div>
+                    <div class="kpi-deltas">
+                        <span><span class="kpi-delta-label">WoW</span> <span class="kpi-delta delta-up">+14.1%</span></span>
+                        <span><span class="kpi-delta-label">MoM</span> <span class="kpi-delta delta-up">+27.3%</span></span>
+                    </div>
+                    <svg class="kpi-spark" viewBox="0 0 100 24" preserveAspectRatio="none">
+                        <polyline fill="none" stroke="#00ff88" stroke-width="1.5" points="0,20 12,18 24,17 36,15 48,14 60,12 72,10 84,7 100,3"/>
+                    </svg>
+                </div>
+
+                <div class="kpi">
+                    <div class="kpi-label">Avg Position</div>
+                    <div class="kpi-value">12.4</div>
+                    <div class="kpi-deltas">
+                        <span><span class="kpi-delta-label">WoW</span> <span class="kpi-delta delta-up">−1.8</span></span>
+                        <span><span class="kpi-delta-label">MoM</span> <span class="kpi-delta delta-up">−3.6</span></span>
+                    </div>
+                    <svg class="kpi-spark" viewBox="0 0 100 24" preserveAspectRatio="none">
+                        <polyline fill="none" stroke="#00ff88" stroke-width="1.5" points="0,4 12,5 24,7 36,9 48,11 60,13 72,15 84,17 100,19"/>
+                    </svg>
+                </div>
+
+                <div class="kpi">
+                    <div class="kpi-label">AI Citation Rate</div>
+                    <div class="kpi-value">42.1%</div>
+                    <div class="kpi-deltas">
+                        <span><span class="kpi-delta-label">WoW</span> <span class="kpi-delta delta-up">+6.4 pts</span></span>
+                        <span><span class="kpi-delta-label">MoM</span> <span class="kpi-delta delta-up">+15.2 pts</span></span>
+                    </div>
+                    <svg class="kpi-spark" viewBox="0 0 100 24" preserveAspectRatio="none">
+                        <polyline fill="none" stroke="#00ff88" stroke-width="1.5" points="0,21 12,20 24,18 36,17 48,15 60,13 72,11 84,8 100,4"/>
+                    </svg>
+                </div>
+
+                <div class="kpi">
+                    <div class="kpi-label">Conversion Rate</div>
+                    <div class="kpi-value">1.75%</div>
+                    <div class="kpi-deltas">
+                        <span><span class="kpi-delta-label">WoW</span> <span class="kpi-delta delta-up">+0.18 pts</span></span>
+                        <span><span class="kpi-delta-label">MoM</span> <span class="kpi-delta delta-flat">+0.04 pts</span></span>
+                    </div>
+                    <svg class="kpi-spark" viewBox="0 0 100 24" preserveAspectRatio="none">
+                        <polyline fill="none" stroke="#00ff88" stroke-width="1.5" points="0,14 12,15 24,13 36,14 48,13 60,12 72,12 84,10 100,8"/>
+                    </svg>
+                </div>
+            </div>
+        </div>
+
+        <!-- Three columns -->
+        <div class="section">
+            <div class="section-header">
+                <h2>Shipped · Moving · Next</h2>
+                <span class="tag">three each, no filler</span>
+            </div>
+            <div class="three-col">
+                <div class="col">
+                    <div class="col-header">Shipped this week</div>
+                    <ul>
+                        <li>
+                            <strong>Cornerstone refresh: Small Business Insurance Cost</strong>
+                            <span>Rebuilt with question-first structure, original pricing data, FAQ schema. <span class="metric">Position 11 → 6</span> in 4 days.</span>
+                        </li>
+                        <li>
+                            <strong>Schema rollout: 14 service pages</strong>
+                            <span>Service + LocalBusiness + AggregateRating JSON-LD shipped. <span class="metric">Validation pass: 14/14</span>.</span>
+                        </li>
+                        <li>
+                            <strong>Quote-form A/B test launched</strong>
+                            <span>Variant: progressive disclosure on field 3. <span class="metric">Test running, 2,400 sessions in</span>, early lift +12%.</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="col">
+                    <div class="col-header">Moving in our favor</div>
+                    <ul>
+                        <li>
+                            <strong>AI citation rate: 35.7% → 42.1%</strong>
+                            <span>Direct lift from cornerstone refresh. Perplexity and Claude both citing the new pricing table. <span class="metric">+6.4 pts WoW</span>.</span>
+                        </li>
+                        <li>
+                            <strong>Position 4–20 band: 31 keywords improved</strong>
+                            <span>Refresh on top-20 underperformers paying off. <span class="metric">9 keywords broke into top 5</span>.</span>
+                        </li>
+                        <li>
+                            <strong>Indexing speed: new pages live in 18 hours avg</strong>
+                            <span>Down from 3.2 days last quarter. Sitemap restructure + internal link push working. <span class="metric">−83% time-to-index</span>.</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="col">
+                    <div class="col-header">Shipping next week</div>
+                    <ul>
+                        <li>
+                            <strong>Cornerstones 2 &amp; 3</strong>
+                            <span>General Liability vs. Professional Liability + Workers Comp by State. Both briefed, drafted, in QA Wednesday.</span>
+                        </li>
+                        <li>
+                            <strong>Schema gap close-out</strong>
+                            <span>Remaining 12 service pages get JSON-LD. Targeting 100% schema coverage on revenue-driving URLs by Friday.</span>
+                        </li>
+                        <li>
+                            <strong>CRO test #2: quote-page CTA</strong>
+                            <span>Hypothesis: trust badges above CTA lift form-start rate. Sample size locked, launching Monday.</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Top movers -->
+        <div class="section">
+            <div class="section-header">
+                <h2>Top Movers</h2>
+                <span class="tag">this week's biggest position changes</span>
+            </div>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>URL</th>
+                        <th>Target Keyword</th>
+                        <th>Position</th>
+                        <th>Impressions</th>
+                        <th>Clicks</th>
+                        <th>Δ Revenue</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="url">/small-business-insurance-cost</td>
+                        <td>small business insurance cost</td>
+                        <td><span class="pos-old">11</span><span class="pos-new">6</span></td>
+                        <td>+28,412</td>
+                        <td>+1,084</td>
+                        <td class="delta-up">+$18,200</td>
+                    </tr>
+                    <tr>
+                        <td class="url">/general-liability-insurance</td>
+                        <td>general liability insurance</td>
+                        <td><span class="pos-old">9</span><span class="pos-new">5</span></td>
+                        <td>+19,807</td>
+                        <td>+842</td>
+                        <td class="delta-up">+$14,650</td>
+                    </tr>
+                    <tr>
+                        <td class="url">/workers-comp-by-state/california</td>
+                        <td>workers comp california</td>
+                        <td><span class="pos-old">14</span><span class="pos-new">8</span></td>
+                        <td>+11,203</td>
+                        <td>+318</td>
+                        <td class="delta-up">+$6,420</td>
+                    </tr>
+                    <tr>
+                        <td class="url">/contractors-insurance</td>
+                        <td>contractor insurance</td>
+                        <td><span class="pos-old">7</span><span class="pos-new">4</span></td>
+                        <td>+8,914</td>
+                        <td>+411</td>
+                        <td class="delta-up">+$9,330</td>
+                    </tr>
+                    <tr>
+                        <td class="url">/professional-liability-vs-general-liability</td>
+                        <td>professional vs general liability</td>
+                        <td><span class="pos-old">22</span><span class="pos-new">12</span></td>
+                        <td>+6,128</td>
+                        <td>+147</td>
+                        <td class="delta-up">+$2,180</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- AI Citation breakdown -->
+        <div class="section">
+            <div class="section-header">
+                <h2>AI Citation Breakdown</h2>
+                <span class="tag">share of priority queries citing Northvale</span>
+            </div>
+            <div class="citation-grid">
+                <div class="citation-cell">
+                    <div class="citation-llm">ChatGPT</div>
+                    <div class="citation-rate">38%</div>
+                    <div class="citation-detail">19 / 50 queries · <span class="delta-up">+5 WoW</span></div>
+                </div>
+                <div class="citation-cell">
+                    <div class="citation-llm">Perplexity</div>
+                    <div class="citation-rate">52%</div>
+                    <div class="citation-detail">26 / 50 queries · <span class="delta-up">+8 WoW</span></div>
+                </div>
+                <div class="citation-cell">
+                    <div class="citation-llm">Gemini</div>
+                    <div class="citation-rate">34%</div>
+                    <div class="citation-detail">17 / 50 queries · <span class="delta-up">+3 WoW</span></div>
+                </div>
+                <div class="citation-cell">
+                    <div class="citation-llm">Claude</div>
+                    <div class="citation-rate">44%</div>
+                    <div class="citation-detail">22 / 50 queries · <span class="delta-up">+6 WoW</span></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Risks -->
+        <div class="section">
+            <div class="section-header">
+                <h2>Risks &amp; Watch Items</h2>
+                <span class="tag">surfaced for leadership awareness</span>
+            </div>
+            <div class="risks">
+                <ul>
+                    <li>
+                        <span class="severity medium">Medium</span>
+                        <strong>Core Web Vitals regression on /quotes/* after CMS update.</strong>
+                        LCP moved from 2.1s to 3.4s on mobile. Engineering ticket open, fix expected by Wed. No ranking impact yet but watching daily.
+                    </li>
+                    <li>
+                        <span class="severity medium">Medium</span>
+                        <strong>Hiscox launched 14 new comparison pages targeting our top commercial keywords.</strong>
+                        Gap analysis runs Wednesday. Defensive content brief queued for Thursday if any of theirs land in top 10 by then.
+                    </li>
+                    <li>
+                        <span class="severity low">Low</span>
+                        <strong>seoClarity rank-tracking export delayed Tue–Wed.</strong>
+                        Backfilled from Ahrefs and GSC. No data gaps in this report. Vendor escalation open.
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <div class="sources">
+                <span>GA4</span>
+                <span>Search Console</span>
+                <span>Ahrefs</span>
+                <span>seoClarity</span>
+                <span>Citation Tracker</span>
+                <span>VWO</span>
+            </div>
+            <div class="sig">// Built on the SEO Manager Playbook · /agents stack · v1.0</div>
+        </div>
+
+    </div>
+</body>
+</html>
