@@ -1,0 +1,57 @@
+# =====================================================================
+# midlandfloors.com - 410 Gone rules for Japanese SEO spam injection
+# =====================================================================
+# Paste this block at the TOP of the site's .htaccess file
+# (before the "# BEGIN WordPress" block).
+#
+# What it does: returns HTTP 410 Gone for every spam URL pattern from
+# the GSC Coverage report. 410 tells Google these URLs are permanently
+# gone and de-indexes them faster than a 404.
+#
+# IMPORTANT: this hides the symptom, not the cause. You still need to
+# find and remove the injected malware (see notes at bottom).
+# =====================================================================
+
+<IfModule mod_rewrite.c>
+RewriteEngine On
+
+# --- Path-based spam patterns ---
+RewriteRule ^shopdetail(/|$)              - [G,L]
+RewriteRule ^discount\.php(/|$)           - [G,L]
+RewriteRule ^elementor-rshf(/|$)          - [G,L]
+
+# --- /index.php/... spam (Japanese resale spam) ---
+RewriteRule ^index\.php/feature(/|$)      - [G,L]
+RewriteRule ^index\.php/man/kaitori(/|$)  - [G,L]
+RewriteRule ^index\.php/safe_search(/|$)  - [G,L]
+RewriteRule ^index\.php/shopdetail(/|$)   - [G,L]
+RewriteRule ^index\.php/zhHant(/|$)       - [G,L]
+RewriteRule ^index\.php/product(/|$)      - [G,L]
+
+# --- Query-string spam: /?shopdetail=...  /index.php?shopdetail=... ---
+RewriteCond %{QUERY_STRING} (^|&)shopdetail [NC]
+RewriteRule ^.*$                          - [G,L]
+
+RewriteCond %{QUERY_STRING} campaign_uid=f64d716db5e979ed2f947dbaf4296895b951ae7f [NC]
+RewriteRule ^.*$                          - [G,L]
+
+# --- Honeypot: block any request matching known spam keywords in path ---
+RewriteRule (kaitori|honten|osu_main|shoplist|surugaya)  - [G,L,NC]
+</IfModule>
+
+# =====================================================================
+# After deploying:
+#   1. Test: curl -I https://midlandfloors.com/shopdetail/123
+#      Expect: HTTP/1.1 410 Gone
+#   2. Test a real page still works: curl -I https://midlandfloors.com/
+#      Expect: HTTP/1.1 200 OK
+#   3. Submit a sitemap refresh in GSC so the 410s get re-crawled.
+#
+# Root-cause work (do NOT skip):
+#   - Compare wp-core files to a clean install (wp core verify-checksums)
+#   - grep -RIn "shopdetail\|kaitori\|base64_decode\|eval(" wp-content/
+#   - Check wp_options for autoloaded option values containing URLs
+#   - Look for unknown PHP files in /wp-content/uploads/ (none should exist)
+#   - Diff .htaccess against a known-clean copy; look for extra rewrite rules
+#   - Inspect must-use plugins: /wp-content/mu-plugins/
+# =====================================================================
