@@ -1,0 +1,120 @@
+# =====================================================================
+# midlandfloors.com — .htaccess (merged with existing GoDaddy/LiteSpeed)
+# =====================================================================
+# Drop this whole file in place of /public_html/.htaccess
+#
+# Structure:
+#   1. Spam-URL 410 block (NEW — runs first)
+#   2. Lock down risky WP files (NEW)
+#   3. Block PHP execution in uploads (NEW — most important hardening)
+#   4. Existing WordPress block (PRESERVED — auto-managed by WP)
+#   5. Existing LiteSpeed block (PRESERVED — auto-managed by LiteSpeed)
+#   6. Security headers + compression (NEW)
+#
+# Before deploying:
+#   - Back up current .htaccess (download it via File Manager)
+#   - Test after:
+#       https://midlandfloors.com/                  → 200
+#       https://midlandfloors.com/shopdetail/123    → 410
+#       https://midlandfloors.com/wp-admin/         → still loads
+# =====================================================================
+
+# ---------- 1. 410 GONE: kill spam URLs fast ----------
+<IfModule mod_rewrite.c>
+RewriteEngine On
+
+RewriteRule ^shopdetail(/|$)              - [G,L]
+RewriteRule ^discount\.php(/|$)           - [G,L]
+RewriteRule ^elementor-rshf(/|$)          - [G,L]
+RewriteRule ^index\.php/feature(/|$)      - [G,L]
+RewriteRule ^index\.php/man/kaitori(/|$)  - [G,L]
+RewriteRule ^index\.php/safe_search(/|$)  - [G,L]
+RewriteRule ^index\.php/shopdetail(/|$)   - [G,L]
+RewriteRule ^index\.php/zhHant(/|$)       - [G,L]
+RewriteRule ^index\.php/product(/|$)      - [G,L]
+
+RewriteCond %{QUERY_STRING} (^|&)shopdetail [NC]
+RewriteRule ^.*$                          - [G,L]
+
+RewriteCond %{QUERY_STRING} campaign_uid=f64d716db5e979ed2f947dbaf4296895b951ae7f [NC]
+RewriteRule ^.*$                          - [G,L]
+
+RewriteRule (kaitori|honten|osu_main|shoplist|surugaya) - [G,L,NC]
+</IfModule>
+
+# ---------- 2. Lock down risky WP files ----------
+<Files wp-config.php>
+  Require all denied
+</Files>
+<Files xmlrpc.php>
+  Require all denied
+</Files>
+<Files readme.html>
+  Require all denied
+</Files>
+<Files license.txt>
+  Require all denied
+</Files>
+<FilesMatch "^\.">
+  Require all denied
+</FilesMatch>
+
+# ---------- 3. Block PHP execution in uploads (key hack-prevention) ----------
+# This single block prevents 90% of WP malware from running, even if a
+# bad PHP file gets uploaded.
+<IfModule mod_rewrite.c>
+  RewriteRule ^wp-content/uploads/.*\.(php|phtml|phar|pl|py|jsp|asp|sh|cgi)$ - [F,L,NC]
+</IfModule>
+
+# ---------- 4. EXISTING WordPress block — DO NOT EDIT ----------
+# BEGIN WordPress
+# The directives (lines) between "BEGIN WordPress" and "END WordPress" are
+# dynamically generated, and should only be modified via WordPress filters.
+# Any changes to the directives between these markers will be overwritten.
+<IfModule mod_rewrite.c>
+RewriteEngine On
+RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+RewriteBase /
+RewriteRule ^index\.php$ - [L]
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule . /index.php [L]
+</IfModule>
+# END WordPress
+
+# ---------- 5. EXISTING LiteSpeed block — DO NOT EDIT ----------
+# BEGIN LiteSpeed
+# The directives (lines) between "BEGIN LiteSpeed" and "END LiteSpeed" are
+# dynamically generated, and should only be modified via WordPress filters.
+# Any changes to the directives between these markers will be overwritten.
+<IfModule Litespeed>
+SetEnv noabort 1
+</IfModule>
+# END LiteSpeed
+
+# ---------- 6. Security headers ----------
+<IfModule mod_headers.c>
+  Header set X-Content-Type-Options "nosniff"
+  Header set X-Frame-Options "SAMEORIGIN"
+  Header set Referrer-Policy "strict-origin-when-cross-origin"
+  Header set Permissions-Policy "geolocation=(), microphone=(), camera=()"
+  # HSTS — enable AFTER confirming https works everywhere on the site
+  # Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains"
+</IfModule>
+
+# ---------- 7. Compression + caching (works on LiteSpeed too) ----------
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/css text/javascript application/javascript application/json image/svg+xml
+</IfModule>
+
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresByType image/jpg "access plus 1 year"
+  ExpiresByType image/jpeg "access plus 1 year"
+  ExpiresByType image/png "access plus 1 year"
+  ExpiresByType image/webp "access plus 1 year"
+  ExpiresByType image/svg+xml "access plus 1 year"
+  ExpiresByType text/css "access plus 1 month"
+  ExpiresByType application/javascript "access plus 1 month"
+  ExpiresByType text/html "access plus 1 hour"
+</IfModule>
