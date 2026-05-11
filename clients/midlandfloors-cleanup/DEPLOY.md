@@ -5,16 +5,20 @@ Three files in this folder go on the live site. Order matters.
 ## 1. `.htaccess` → `/public_html/.htaccess`
 
 1. GoDaddy → File Manager → `/public_html/`
-2. Right-click current `.htaccess` → Download (backup)
+2. Right-click current `.htaccess` → Download (backup — name it `htaccess.backup`)
 3. Right-click `.htaccess` → Edit → select all → paste contents of this `.htaccess` → Save
-4. **Update line 67**: replace `USERNAME` with your actual cPanel username (look at the file path bar in File Manager — it's the segment after `/home/`)
-5. Test:
+4. Test:
    ```
    curl -I https://midlandfloors.com/
    curl -I https://midlandfloors.com/shopdetail/123
+   curl -I https://midlandfloors.com/wp-admin/
    ```
-   First should be 200, second should be 410.
-6. If anything 500s, restore the backup and ping me.
+   - `/` should be 200
+   - `/shopdetail/123` should be 410
+   - `/wp-admin/` should be 200 or 302 (redirect to login)
+5. If anything 500s, restore `htaccess.backup` and ping me.
+
+**Note:** this version preserves your existing WordPress + LiteSpeed blocks intact, so WP and the cache plugin will keep auto-managing them. The new rules go above and below those blocks.
 
 ## 2. `robots.txt` → `/public_html/robots.txt`
 
