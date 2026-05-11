@@ -33,14 +33,6 @@ RewriteRule ^index\.php/shopdetail(/|$)   - [G,L]
 RewriteRule ^index\.php/zhHant(/|$)       - [G,L]
 RewriteRule ^index\.php/product(/|$)      - [G,L]
 
-# Removed WooCommerce store - 410 the leftover URLs so Google de-indexes them
-RewriteRule ^shop(/|$)                    - [G,L]
-RewriteRule ^product(/|$)                 - [G,L]
-RewriteRule ^product-category(/|$)        - [G,L]
-RewriteRule ^product-tag(/|$)             - [G,L]
-RewriteRule ^cart(/|$)                    - [G,L]
-RewriteRule ^checkout(/|$)                - [G,L]
-
 RewriteCond %{QUERY_STRING} (^|&)shopdetail [NC]
 RewriteRule ^.*$                          - [G,L]
 

@@ -22,14 +22,6 @@ https://midlandfloors.com/index.php/shopdetail/
 https://midlandfloors.com/index.php/zhHant/
 https://midlandfloors.com/index.php/product/
 
-# Removed WooCommerce store - submit these too:
-https://midlandfloors.com/shop/
-https://midlandfloors.com/product/
-https://midlandfloors.com/product-category/
-https://midlandfloors.com/product-tag/
-https://midlandfloors.com/cart/
-https://midlandfloors.com/checkout/
-
 # Query-string-based spam — GSC removal only supports prefixes, so the
 # 410 rules in .htaccess handle these:
 #   https://midlandfloors.com/?shopdetail=...
