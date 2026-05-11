@@ -1,0 +1,34 @@
+# GSC URL Removal Tool - Prefix removals for midlandfloors.com
+# https://search.google.com/search-console/removals
+#
+# For each line below:
+#   1. Click "New Request"
+#   2. Choose "Remove all URLs with this prefix"
+#   3. Paste the URL
+#   4. Submit
+#
+# Each prefix removal hides the URLs from Google search for ~6 months
+# while your 410 responses make the removal permanent.
+#
+# Safe prefixes (only spam matches these patterns):
+
+https://midlandfloors.com/shopdetail/
+https://midlandfloors.com/discount.php
+https://midlandfloors.com/elementor-rshf/
+https://midlandfloors.com/index.php/feature/
+https://midlandfloors.com/index.php/man/
+https://midlandfloors.com/index.php/safe_search
+https://midlandfloors.com/index.php/shopdetail/
+https://midlandfloors.com/index.php/zhHant/
+https://midlandfloors.com/index.php/product/
+
+# Query-string-based spam — GSC removal only supports prefixes, so the
+# 410 rules in .htaccess handle these:
+#   https://midlandfloors.com/?shopdetail=...
+#   https://midlandfloors.com/index.php?shopdetail=...
+
+# Optional (you decide — these may have a few legit URLs mixed in,
+# review before removing):
+#   https://midlandfloors.com/category/
+#   https://midlandfloors.com/tag/
+#   https://midlandfloors.com/author/
