@@ -1,0 +1,108 @@
+# =====================================================================
+# midlandfloors.com - .htaccess
+# Drop-in replacement for /public_html/.htaccess
+# Apache 2.4 + mod_rewrite required (GoDaddy cPanel default)
+# =====================================================================
+# This file does 4 things:
+#   1. 410 Gone for every spam URL pattern from the GSC report
+#   2. Block direct access to risky WP files (wp-config, xmlrpc, etc.)
+#   3. Standard WordPress rewrite block
+#   4. Security headers + basic hardening
+#
+# Before deploying:
+#   - Back up the current .htaccess (download it first)
+#   - Test on staging if you have one
+#   - After deploy, hit https://midlandfloors.com/ → must return 200
+#                   hit https://midlandfloors.com/shopdetail/1 → must return 410
+# =====================================================================
+
+# ---------- 1. 410 GONE: kill spam URLs fast ----------
+<IfModule mod_rewrite.c>
+RewriteEngine On
+
+RewriteRule ^shopdetail(/|$)              - [G,L]
+RewriteRule ^discount\.php(/|$)           - [G,L]
+RewriteRule ^elementor-rshf(/|$)          - [G,L]
+RewriteRule ^index\.php/feature(/|$)      - [G,L]
+RewriteRule ^index\.php/man/kaitori(/|$)  - [G,L]
+RewriteRule ^index\.php/safe_search(/|$)  - [G,L]
+RewriteRule ^index\.php/shopdetail(/|$)   - [G,L]
+RewriteRule ^index\.php/zhHant(/|$)       - [G,L]
+RewriteRule ^index\.php/product(/|$)      - [G,L]
+
+RewriteCond %{QUERY_STRING} (^|&)shopdetail [NC]
+RewriteRule ^.*$                          - [G,L]
+
+RewriteCond %{QUERY_STRING} campaign_uid=f64d716db5e979ed2f947dbaf4296895b951ae7f [NC]
+RewriteRule ^.*$                          - [G,L]
+
+RewriteRule (kaitori|honten|osu_main|shoplist|surugaya) - [G,L,NC]
+</IfModule>
+
+# ---------- 2. Lock down risky WP files ----------
+<Files wp-config.php>
+  Require all denied
+</Files>
+<Files xmlrpc.php>
+  Require all denied
+</Files>
+<Files .htaccess>
+  Require all denied
+</Files>
+<Files readme.html>
+  Require all denied
+</Files>
+<Files license.txt>
+  Require all denied
+</Files>
+
+# Block PHP execution inside uploads (single biggest hack-vector for WP)
+<Directory "/home/USERNAME/public_html/wp-content/uploads">
+  <FilesMatch "\.(php|phtml|phar|pl|py|jsp|asp|sh|cgi)$">
+    Require all denied
+  </FilesMatch>
+</Directory>
+
+# Block direct access to obvious junk
+<FilesMatch "(wp-config\.php|\.env|\.git|composer\.json|composer\.lock|package\.json|package-lock\.json|yarn\.lock)">
+  Require all denied
+</FilesMatch>
+
+# ---------- 3. Standard WordPress rewrite block ----------
+# BEGIN WordPress
+<IfModule mod_rewrite.c>
+RewriteEngine On
+RewriteBase /
+RewriteRule ^index\.php$ - [L]
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule . /index.php [L]
+</IfModule>
+# END WordPress
+
+# ---------- 4. Security headers ----------
+<IfModule mod_headers.c>
+  Header set X-Content-Type-Options "nosniff"
+  Header set X-Frame-Options "SAMEORIGIN"
+  Header set Referrer-Policy "strict-origin-when-cross-origin"
+  Header set Permissions-Policy "geolocation=(), microphone=(), camera=()"
+  # HSTS - only enable AFTER you've confirmed HTTPS works everywhere
+  # Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains"
+</IfModule>
+
+# ---------- 5. Compression + caching ----------
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/css text/javascript application/javascript application/json image/svg+xml
+</IfModule>
+
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresByType image/jpg "access plus 1 year"
+  ExpiresByType image/jpeg "access plus 1 year"
+  ExpiresByType image/png "access plus 1 year"
+  ExpiresByType image/webp "access plus 1 year"
+  ExpiresByType image/svg+xml "access plus 1 year"
+  ExpiresByType text/css "access plus 1 month"
+  ExpiresByType application/javascript "access plus 1 month"
+  ExpiresByType text/html "access plus 1 hour"
+</IfModule>
