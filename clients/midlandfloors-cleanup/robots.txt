@@ -24,6 +24,14 @@ Disallow: /index.php/shopdetail/
 Disallow: /index.php/zhHant/
 Disallow: /index.php/product/
 
+# Removed WooCommerce store
+Disallow: /shop/
+Disallow: /product/
+Disallow: /product-category/
+Disallow: /product-tag/
+Disallow: /cart/
+Disallow: /checkout/
+
 # Block low-value WP archives that bloat the index
 Disallow: /author/
 Disallow: /tag/
