@@ -1,0 +1,57 @@
+{
+  "_comment": "LocalBusiness + Service schema for a city/service page. Drop in a <script type=\"application/ld+json\"> tag in the page head. Replace every [BRACKET]. One block per page; set areaServed to the page's city. Validate at https://validator.schema.org and https://search.google.com/test/rich-results before shipping.",
+
+  "@context": "https://schema.org",
+  "@type": "LocalBusiness",
+  "@id": "https://[DOMAIN]/#business",
+  "name": "[BUSINESS NAME]",
+  "url": "https://[DOMAIN]/[city-service-page]",
+  "image": "https://[DOMAIN]/images/[real-photo].jpg",
+  "telephone": "[+1-XXX-XXX-XXXX]",
+  "priceRange": "$$",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "[STREET]",
+    "addressLocality": "[CITY]",
+    "addressRegion": "[STATE e.g. MD]",
+    "postalCode": "[ZIP]",
+    "addressCountry": "US"
+  },
+  "geo": {
+    "@type": "GeoCoordinates",
+    "latitude": "[LAT]",
+    "longitude": "[LNG]"
+  },
+  "areaServed": {
+    "@type": "City",
+    "name": "[CITY THIS PAGE TARGETS e.g. Falls Church]"
+  },
+  "openingHoursSpecification": [
+    {
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday"],
+      "opens": "08:00",
+      "closes": "18:00"
+    }
+  ],
+  "hasOfferCatalog": {
+    "@type": "OfferCatalog",
+    "name": "[SERVICE e.g. Drywall Repair] in [CITY]",
+    "itemListElement": [
+      {
+        "@type": "Offer",
+        "itemOffered": {
+          "@type": "Service",
+          "name": "[SPECIFIC SERVICE e.g. Drywall Hole Repair]",
+          "areaServed": "[CITY], [STATE]"
+        }
+      }
+    ]
+  },
+  "aggregateRating": {
+    "_comment": "ONLY include if you have real, verifiable reviews. Faking this is a manual-action risk. Delete this whole block if you do not.",
+    "@type": "AggregateRating",
+    "ratingValue": "[e.g. 4.8]",
+    "reviewCount": "[e.g. 37]"
+  }
+}

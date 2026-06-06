@@ -1,0 +1,45 @@
+# Host canonicalization — force one version of every URL
+# Goal: https, no www, no duplicate index variants, all in a SINGLE redirect (no chains).
+# Apache (.htaccess). Adapt the domain per site. Test with: curl -I <url>
+
+# ---------------------------------------------------------------------------
+# divinecleaningdc.com  (canonical = https://divinecleaningdc.com/, .html kept)
+# ---------------------------------------------------------------------------
+RewriteEngine On
+
+# 1. Force HTTPS and strip www in one hop
+RewriteCond %{HTTPS} off [OR]
+RewriteCond %{HTTP_HOST} ^www\. [NC]
+RewriteCond %{HTTP_HOST} ^(?:www\.)?(.+)$ [NC]
+RewriteRule ^ https://%1%{REQUEST_URI} [R=301,L]
+
+# 2. Collapse /index and /index.html to the root
+RewriteRule ^index(\.html)?$ / [R=301,L]
+
+# Expected after deploy:
+#   curl -I http://www.divinecleaningdc.com/index.html  -> 301 -> https://divinecleaningdc.com/
+#   curl -I https://divinecleaningdc.com/                -> 200
+
+# ---------------------------------------------------------------------------
+# allpurposeanytimeservices.com
+# Decide the canonical host FIRST. The money pages (/services/...) live on www,
+# so canonical = https://www.allpurposeanytimeservices.com/  is the lower-risk pick.
+# (If you prefer non-www, flip the rule and re-point the sitemap + internal links.)
+# ---------------------------------------------------------------------------
+RewriteEngine On
+
+# Force HTTPS + www in one hop
+RewriteCond %{HTTPS} off [OR]
+RewriteCond %{HTTP_HOST} !^www\. [NC]
+RewriteRule ^ https://www.allpurposeanytimeservices.com%{REQUEST_URI} [R=301,L]
+
+# After this, EVERY internal link and the XML sitemap must use
+# https://www.allpurposeanytimeservices.com/...  with no exceptions.
+
+# ---------------------------------------------------------------------------
+# Notes
+# ---------------------------------------------------------------------------
+# - R=301 = permanent. Browsers and Google cache it, so test on a fresh curl, not a browser tab.
+# - One hop only. If a request needs two redirects to land, the rule order is wrong. Fix it.
+# - Back up the existing .htaccess before editing. If anything 500s, restore and stop.
+# - Static-HTML sites also need a self-referencing <link rel="canonical"> in each page head.
